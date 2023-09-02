@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: postgres
+  name: postgres
+  namespace: {{ NAMESPACE }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: postgres
+      containers:
+        - name: postgres
+          image: postgres:16rc1-bullseye
+          ports:
+            - name: postgres
+              containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRES_PASSWORD
+              value: {{ POSTGRES_PASSWORD }}
+            - name: POSTGRES_USER
+              value: {{ POSTGRES_USER }}
+            - name: POSTGRES_DB
+              value: {{ POSTGRES_DB }}
+            - name: PGDATA
+              value: /var/lib/postgresql/data
+          volumeMounts:
+            - mountPath: /var/lib/postgresql
+              name: volume
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: postgres
+  name: postgres
+  namespace: {{ NAMESPACE }}
+spec:
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: postgres

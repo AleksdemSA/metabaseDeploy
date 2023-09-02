@@ -1,0 +1,6 @@
+---
+- name: Install Metabase
+  hosts: localhost
+
+  roles:
+    - ..

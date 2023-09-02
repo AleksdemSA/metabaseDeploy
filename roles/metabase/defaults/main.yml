@@ -1,0 +1,10 @@
+---
+NAMESPACE: "{{ meta.NAMESPACE | default('metabase') }}"
+EMAIL: "devops@example.org"
+IMAGE: "metabase/metabase:v0.46.8"
+POSTGRES_PASSWORD: "metabase"
+POSTGRES_USER: "metabase"
+POSTGRES_DB: "metabase"
+DBSIZE: "1Gi"
+DOMAIN: "{{ meta.DOMAIN | default('metabase.example.org') }}"
+IPWHITELIST: "0.0.0.0/0"

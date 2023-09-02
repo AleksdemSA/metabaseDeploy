@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: metabase
+  name: metabase
+  namespace: {{ NAMESPACE }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metabase
+  template:
+    metadata:
+      labels:
+        app: metabase
+    spec:
+      containers:
+        - name: metabase
+          image: {{ IMAGE }}
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          env:
+            - name: MB_DB_TYPE
+              value: postgres
+            - name: MB_DB_DBNAME
+              value: {{ POSTGRES_DB }}
+            - name: MB_DB_PORT
+              value: "5432"
+            - name: MB_DB_USER
+              value: {{ POSTGRES_USER }}
+            - name: MB_DB_PASS
+              value: {{ POSTGRES_PASSWORD }}
+            - name: MB_DB_HOST
+              value: postgres
+

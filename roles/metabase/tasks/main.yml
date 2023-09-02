@@ -1,0 +1,36 @@
+---
+- name: Create NS
+  kubernetes.core.k8s:
+    state: present
+    template:
+      - namespace.yml.j2
+
+- name: Create database pvc
+  kubernetes.core.k8s:
+    state: present
+    template:
+      - dbpvc.yml.j2
+
+- name: Create database
+  kubernetes.core.k8s:
+    state: present
+    template:
+      - database.yml.j2
+
+- name: Create application deploy
+  kubernetes.core.k8s:
+    state: present
+    template:
+      - appdeploy.yml.j2
+
+- name: Create application service
+  kubernetes.core.k8s:
+    state: present
+    template:
+      - appservice.yml.j2
+
+- name: Create application ingress
+  kubernetes.core.k8s:
+    state: present
+    template:
+      - appingress.yml.j2
