@@ -37,4 +37,11 @@ spec:
               value: {{ POSTGRES_PASSWORD }}
             - name: MB_DB_HOST
               value: postgres
+          resources:
+            requests:
+              cpu: {{ APPCPU }}
+              memory: {{ APPMEM }}
+            limits:
+              cpu: {{ APPCPU }}
+              memory: {{ APPMEM }}
 

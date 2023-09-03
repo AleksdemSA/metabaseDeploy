@@ -39,6 +39,13 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql
               name: volume
+          resources:
+            requests:
+              cpu: {{ DBCPU }}
+              memory: {{ DBMEM }}
+            limits:
+              cpu: {{ DBCPU }}
+              memory: {{ DBMEM }}
   persistentVolumeClaimRetentionPolicy:
     whenDeleted: Retain
     whenScaled: Retain
